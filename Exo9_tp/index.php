@@ -1,4 +1,3 @@
 <?php
-require 'pdo.php';
+require 'Model/pdo.php';
 ?>
-
