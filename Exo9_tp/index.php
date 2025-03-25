@@ -33,6 +33,18 @@ require 'Model/pdo.php';
             }
         ?>
     </ul>
+    <h1>Liste de toute les professeurs</h1>
+    <ul>
+        <?php
+            $sql = "SELECT nom, prenom FROM professeurs";
+            $stmt = $dbPDO->prepare($sql);
+            $stmt->execute();
+            $profs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($profs as $prof) {
+                echo "<li>" . htmlspecialchars($prof['prenom']) . " " . htmlspecialchars($prof['nom']) . "</li>";
+            }
+        ?>
+    </ul>
     
 </body>
 </html>
