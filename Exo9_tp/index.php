@@ -61,7 +61,7 @@ require 'Model/pdo.php';
     <h1>Partie 3</h1>
     <h3>Ajouter une matière</h3>
     <form action="Views/nouvelle_matiere.php" method="POST">
-    <input type="text" name="lib" placeholder="Nom de la matière" required>
+    <input type="text" name="libelle" placeholder="Nom de la matière" required>
     <button type="submit">Ajouter</button>
     </form>
 
@@ -79,6 +79,7 @@ require 'Model/pdo.php';
         </select>
         <button type="submit">Ajouter</button>
     </form>
-
+    <h1>Partie 4</h1>
+    
 </body>
 </html>
