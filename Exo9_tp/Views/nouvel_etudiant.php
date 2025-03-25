@@ -17,7 +17,6 @@
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-            // Requête SQL pour insérer le nouvel élève
             $sql = "INSERT INTO etudiants (nom, prenom, classe_id) VALUES (:nom, :prenom, :classe_id)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
@@ -36,7 +35,6 @@
         echo "Veuillez remplir correctement le formulaire.";
     }
     
-    // Lien pour retourner à la page principale
     echo '<br><a href="../index.php">Retour à la page principale</a>';
 ?>
 
