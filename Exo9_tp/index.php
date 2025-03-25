@@ -61,23 +61,15 @@ require 'Model/pdo.php';
     <h1>Partie 3</h1>
     <h3>Ajouter une matière</h3>
     <form action="Views/nouvelle_matiere.php" method="POST">
-    <input type="text" name="libelle" placeholder="Nom de la matière" required>
+    <input type="text" name="lib" placeholder="Nom de la matière" required>
     <button type="submit">Ajouter</button>
     </form>
 
     <h3>Ajouter un étudiant</h3>
     <form action="Views/nouvel_etudiant.php" method="POST">
-        <input type="text" name="nom" placeholder="Nom" required>
-        <input type="text" name="prenom" placeholder="Prénom" required>
-        <select name="id_classe" required>
-        <?php
-        $classes = $pdo->query("SELECT * FROM classes")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($classes as $class) {
-            echo "<option value='{$class['id']}'>{$class['nom']}</option>";
-        }
-        ?>
-        </select>
-        <button type="submit">Ajouter</button>
+        <input type="text"  placeholder="Nom" name="nom" required>
+        <input type="text"  placeholder="Prenom" name="prenom" required>
+        <button type="submit">Valider</button>
     </form>
     <h1>Partie 4</h1>
     
