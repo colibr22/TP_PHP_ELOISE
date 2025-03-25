@@ -11,9 +11,16 @@ require 'Model/pdo.php';
 <body>
     <h1>Liste des étudiants</h1>
     <ul>
-        <?php foreach ($etudiants as $etudiant): ?>
-            <li><?= htmlspecialchars($etudiant['prenom'] . ' ' . $etudiant['nom']) ?></li>
-        <?php endforeach; ?>
+        <?php
+            $sql = "SELECT nom, prenom FROM etudiants";
+            $stmt = $dbPDO->prepare($sql);
+            $stmt->execute();
+            $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($etudiants as $etudiant) {
+                echo "<li>" . htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']) . "</li>";
+            }
+        ?>
+        
     </ul>
 </body>
 </html>
