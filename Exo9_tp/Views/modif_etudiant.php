@@ -29,6 +29,24 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <input type="text" placeholder="Prenom" name="prenom" value="<?= htmlspecialchars($etudiant['prenom']) ?>" required>
                     <button type="submit">Modifier</button>
                 </form>
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $nom = $_POST['nom'];
+                    $prenom = $_POST['prenom'];
+
+                    $update_sql = "UPDATE etudiants SET nom = :nom, prenom = :prenom WHERE id = :id";
+                    $update_stmt = $pdo->prepare($update_sql);
+                    $update_stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+                    $update_stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+                    $update_stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+                    if ($update_stmt->execute()) {
+                        echo "<p>Informations mises à jour avec succès.</p>";
+                    } else {
+                        echo "<p>Erreur lors de la mise à jour des informations.</p>";
+                    }
+                }
+                ?>
             </body>
             </html>
             <?php
