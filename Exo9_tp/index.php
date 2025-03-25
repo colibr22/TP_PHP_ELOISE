@@ -9,7 +9,8 @@ require 'Model/pdo.php';
     <title>Liste des étudiants</title>
 </head>
 <body>
-    <h1>Liste des étudiants</h1>
+    <h1>Partie 2</h1>
+    <h3>Liste des étudiants</h3>
     <ul>
         <?php
             $sql = "SELECT nom, prenom FROM etudiants";
@@ -21,7 +22,7 @@ require 'Model/pdo.php';
             }
         ?>
     </ul>
-    <h1>Liste de toute les classes</h1>
+    <h3>Liste de toute les classes</h3>
     <ul>
         <?php
             $sql = "SELECT libelle FROM classes";
@@ -33,7 +34,7 @@ require 'Model/pdo.php';
             }
         ?>
     </ul>
-    <h1>Liste de toute les professeurs</h1>
+    <h3>Liste de toute les professeurs</h3>
     <ul>
         <?php
             $sql = "SELECT nom, prenom FROM professeurs";
@@ -45,6 +46,17 @@ require 'Model/pdo.php';
             }
         ?>
     </ul>
-    
+    <h3>Proffesseurs avec leurs matieres et leurs classes</h3>
+    <ul>
+        <?php
+            $sql = "SELECT professeurs.prenom, professeurs.nom, matiere.lib, classes.libelle FROM professeurs JOIN matiere ON professeurs.id_matiere = matiere.id JOIN classes ON professeurs.id_classe = classes.id;";
+            $stmt = $dbPDO->prepare($sql);
+            $stmt->execute();
+            $profs_matiere_classe = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($profs_matiere_classe as $item) {
+                echo "<li>" . htmlspecialchars($item['professeurs.prenom']) . " " . htmlspecialchars($item['professeurs.nom']) . " enseigne " . htmlspecialchars($item['matiere.lib']) . " dans la classe " . htmlspecialchars($item['classes.libelle']) . "</li>";
+            }
+        ?>
+    </ul>
 </body>
 </html>
