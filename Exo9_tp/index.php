@@ -58,5 +58,11 @@ require 'Model/pdo.php';
             }
         ?>
     </ul>
+    <h1>Partie 3</h1>
+    <form action="Views/nouvelle_matiere.php" method="POST">
+    <input type="text" name="lib" placeholder="Nom de la matière" required>
+    <button type="submit">Ajouter</button>
+    </form>
+
 </body>
 </html>
