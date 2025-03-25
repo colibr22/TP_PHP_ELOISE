@@ -1,57 +1,44 @@
 <?php
-require '../Model/pdo.php';
-
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = $_GET['id'];
+    $id = (int)$_GET['id'];
 
-    $sql = "SELECT * FROM etudiants WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-    $etudiant = $stmt->fetch(PDO::FETCH_ASSOC);
+    require '../Model/pdo.php';
+    
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if (!$etudiant) {
-        echo "Étudiant non trouvé.";
-        exit;
+        $sql = "SELECT nom, prenom FROM etudiants WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $etudiant = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($etudiant) {
+            ?>
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <title>Modifier un étudiant</title>
+            </head>
+            <body>
+                <h1>Modifier les informations de l'étudiant</h1>
+                <form action="modif_etudiant.php?id=<?= $id ?>" method="POST">
+                    <input type="text" placeholder="Nom" name="nom" value="<?= htmlspecialchars($etudiant['nom']) ?>" required>
+                    <input type="text" placeholder="Prenom" name="prenom" value="<?= htmlspecialchars($etudiant['prenom']) ?>" required>
+                    <button type="submit">Modifier</button>
+                </form>
+            </body>
+            </html>
+            <?php
+        } else {
+            echo "Étudiant introuvable.";
+        }
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
     }
 } else {
     echo "ID invalide.";
-    exit;
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-
-    $sql = "UPDATE etudiants SET nom = ?, prenom = ? WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    if ($stmt->execute([$nom, $prenom, $id])) {
-        echo "Modification réussie !";
-    } else {
-        echo "Erreur lors de la modification.";
-    }
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Modifier Étudiant</title>
-</head>
-<body>
-    <h2>Modifier l'Étudiant</h2>
-    <form method="post">
-        <label>Nom :</label>
-        <input type="text" name="nom" value="<?= htmlspecialchars($etudiant['nom']) ?>" required><br>
-
-        <label>Prénom :</label>
-        <input type="text" name="prenom" value="<?= htmlspecialchars($etudiant['prenom']) ?>" required><br>
-
-        <input type="submit" value="Mettre à jour">
-    </form>
-    <br>
-    <a href="../liste_etudiants.php">Retour à la liste</a>
-</body>
-</html>
-
-</body>
-</html>

@@ -20,8 +20,6 @@ require 'Model/pdo.php';
             foreach ($etudiants as $etudiant) {
                 echo "<li>" . htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']) . "</li>";
             }
-            echo "<li>" . htmlspecialchars($row['nom']) . " " . htmlspecialchars($row['prenom']) .
-                " <a href='Views/modif_etudiant.php?id=" . $row['id'] . "'>Modifier</a></li>";
         ?>
     </ul>
     <h3>Liste de toute les classes</h3>
@@ -74,6 +72,19 @@ require 'Model/pdo.php';
         <button type="submit">Valider</button>
     </form>
     <h1>Partie 4</h1>
+    <h3>Modifier un étudiant</h3>
+        <?php
+            $sql = "SELECT id, nom, prenom FROM etudiants";
+            $stmt = $dbPDO->prepare($sql);
+            $stmt->execute();
+            $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($etudiants as $etudiant) {
+                echo "<li>" .htmlspecialchars($etudiant['id']) . " _ " . htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']) . "</li>";
+            }
+        ?>
+    <form action="Views/modif_etudiant.php" method="GET">
+        <input type="number" name="id" placeholder="ID de l'étudiant" required>
+        <button type="submit">Modifier</button>
 
 </body>
 </html>
