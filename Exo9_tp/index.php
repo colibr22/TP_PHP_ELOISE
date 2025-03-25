@@ -49,7 +49,10 @@ require 'Model/pdo.php';
     <h3>Proffesseurs avec leurs matieres et leurs classes</h3>
     <ul>
         <?php
-            $sql = "SELECT professeurs.prenom, professeurs.nom, matiere.lib, classes.libelle FROM professeurs JOIN matiere ON professeurs.id_matiere = matiere.id JOIN classes ON professeurs.id_classe = classes.id;";
+            $sql = "SELECT professeurs.prenom, professeurs.nom, matiere.lib, classes.libelle 
+            FROM professeurs 
+            INNER JOIN matiere ON professeurs.id_matiere = matiere.id 
+            INNER JOIN classes ON professeurs.id_classe = classes.id";
             $stmt = $dbPDO->prepare($sql);
             $stmt->execute();
             $profs_matiere_classe = $stmt->fetchAll(PDO::FETCH_ASSOC);
