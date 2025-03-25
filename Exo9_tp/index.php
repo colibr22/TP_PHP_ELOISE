@@ -82,9 +82,25 @@ require 'Model/pdo.php';
                 echo "<li>" .htmlspecialchars($etudiant['id']) . " _ " . htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']) . "</li>";
             }
         ?>
-    <form action="Views/modif_etudiant.php" method="GET">
-        <input type="number" name="id" placeholder="ID de l'étudiant" required>
-        <button type="submit">Modifier</button>
+        <form action="Views/modif_etudiant.php" method="GET">
+            <input type="number" name="id" placeholder="ID de l'étudiant" required>
+            <button type="submit">Modifier</button>
+        </form>
 
+    <h1>Partie 5</h1>
+    <h3>Supprimer un étudiant</h3>
+        <?php
+            $sql = "SELECT id, nom, prenom FROM etudiants";
+            $stmt = $dbPDO->prepare($sql);
+            $stmt->execute();
+            $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($etudiants as $etudiant) {
+                echo "<li>" .htmlspecialchars($etudiant['id']) . " _ " . htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']) . "</li>";
+            }
+        ?>
+        <form action="Views/suppression_etudiant.php" method="GET">
+            <input type="number" name="id" placeholder="ID de l'étudiant" required>
+            <button type="submit">Supprimer</button>
+        </form>
 </body>
 </html>
