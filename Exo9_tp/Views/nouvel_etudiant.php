@@ -8,35 +8,35 @@
 <body>
     <?php
     require '../Model/pdo.php';
-
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['libelle'])) {
-        $libelle = htmlspecialchars($_POST['nom']);
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['nom'], $_POST['prenom'])) {
+        $nom = htmlspecialchars($_POST['nom']);
         $prenom = htmlspecialchars($_POST['prenom']);
-        $classe_id = 1; // ID de classe fixe
+        $classe_id = 1;
     
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-            $sql = "INSERT INTO eleves (nom, prenom, classe_id) VALUES (:nom, :prenom, :classe_id)";
+            // Requête SQL pour insérer le nouvel élève
+            $sql = "INSERT INTO etudiants (nom, prenom, classe_id) VALUES (:nom, :prenom, :classe_id)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
             $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
             $stmt->bindParam(':classe_id', $classe_id, PDO::PARAM_INT);
-
+    
             if ($stmt->execute()) {
-                echo "Nouvelle élève ajoutée avec succès !";
+                echo "Nouvel élève ajouté avec succès !";
             } else {
                 echo "Une erreur s'est produite lors de l'ajout.";
             }
-        } 
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();
         }
-    } 
-    else {
-        echo "Veuillez remplir le formulaire correctement.";
+    } else {
+        echo "Veuillez remplir correctement le formulaire.";
     }
+    
+    // Lien pour retourner à la page principale
     echo '<br><a href="../index.php">Retour à la page principale</a>';
 ?>
 
