@@ -49,16 +49,16 @@ require 'Model/pdo.php';
     <h3>Proffesseurs avec leurs matieres et leurs classes</h3>
     <ul>
         <?php
-            $sql = "SELECT professeurs.prenom, professeurs.nom, matiere.lib, classes.libelle 
-            FROM professeurs 
-            INNER JOIN matiere ON professeurs.id_matiere = matiere.id 
-            INNER JOIN classes ON professeurs.id_classe = classes.id";
+            $sql = "SELECT professeurs.prenom, professeurs.nom, matiere.lib AS matiere, classes.libelle AS classe 
+                    FROM professeurs 
+                    INNER JOIN matiere ON professeurs.id_matiere = matiere.id 
+                    INNER JOIN classes ON professeurs.id_classe = classes.id";
             $stmt = $dbPDO->prepare($sql);
             $stmt->execute();
             $profs_matiere_classe = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($profs_matiere_classe as $item) {
-                echo "<li>" . htmlspecialchars($item['professeurs.prenom']) . " " . htmlspecialchars($item['professeurs.nom']) . " enseigne " . htmlspecialchars($item['matiere.lib']) . " dans la classe " . htmlspecialchars($item['classes.libelle']) . "</li>";
-            }
+                echo "<li>" . htmlspecialchars($item['prenom']) . " " . htmlspecialchars($item['nom']) . " enseigne " . htmlspecialchars($item['matiere']) . " dans la classe de " . htmlspecialchars($item['classe']) . "</li>";
+            } 
         ?>
     </ul>
     <h1>Partie 3</h1>
@@ -105,5 +105,6 @@ require 'Model/pdo.php';
             <input type="number" name="id" placeholder="ID de l'étudiant" required>
             <button type="submit">Supprimer</button>
         </form>
+    <a href="Exo10_tp/index10.php">TP10</a>
 </body>
 </html>
